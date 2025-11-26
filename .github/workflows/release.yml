@@ -82,12 +82,12 @@ jobs:
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `notes=${encoded}\n`);
           EOF
 
-      - name: Send release changelog to Discord
-        if: success()
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          RELEASE_NOTES_BASE64: ${{ steps.release_notes.outputs.notes }}
-        run: |
-          message=$(printf '%s' "$RELEASE_NOTES_BASE64" | base64 --decode)
-          payload=$(jq -n --arg content "$message" '{username:"Release Bot", content:$content}')
-          curl -s -S -H 'Content-Type: application/json' -X POST -d "$payload" "$DISCORD_WEBHOOK_URL"
+      # - name: Send release changelog to Discord
+      #   if: success()
+      #   env:
+      #     DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+      #     RELEASE_NOTES_BASE64: ${{ steps.release_notes.outputs.notes }}
+      #   run: |
+      #     message=$(printf '%s' "$RELEASE_NOTES_BASE64" | base64 --decode)
+      #     payload=$(jq -n --arg content "$message" '{username:"Release Bot", content:$content}')
+      #     curl -s -S -H 'Content-Type: application/json' -X POST -d "$payload" "$DISCORD_WEBHOOK_URL"
